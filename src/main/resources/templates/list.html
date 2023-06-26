@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+</head>
+<body>
+
+<div class="container my-2">
+    <h1>Employee Lists</h1>
+    <a th:href="@{/addNewEmployee}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Employee First Name</th>
+            <th>Employee Last Name</th>
+            <th>Employee Email</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${listEmployees}">
+
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.email}"></td>
+            <td><a th:href="@{/updateForm/{id}(id=${employee.id})}" class="btn btn-primary">Update</a></td>
+            <td><a th:href="@{/delete/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${totalPage>1}">
+        <div class ="row col-sm-10">
+            <div class="col-sm-2">
+                Total rows:[[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+                <span th:each="i : ${#numbers.sequence(1,totalPage)}">
+                    <a th:if="${currentPage !=i}" th:href="@{'/page/'+${i}}">[[${i}]]</a>
+                    <span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;&nbsp;
+                </span>
+            </div>
+            <!--<div class="col-sm-1">
+                <a th:if="${currentPage < totalPage}" th:href="@{'/page/'+${currentPage+1}}">Next</a>
+                <span th:unless="${currentPage < totalPage}">Next</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPage}" th:href="@{'/page/'+${totalPages}}">Last</a>
+                <span th:unless="${currentPage < totalPage}">Last</span>
+            </div>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
